@@ -1,0 +1,9 @@
+SET @tgl = "2019-06-04"; 
+SELECT empcode, get_empname(empcode)
+            , start_date
+            , end_date
+            , FLOOR(DATEDIFF(@tgl,start_date)/365) years
+            , FLOOR((DATEDIFF(@tgl,start_date)/365 - FLOOR(DATEDIFF(@tgl,start_date)/365))* 12) months
+            , CEILING((((DATEDIFF(@tgl,start_date)/365 - FLOOR(DATEDIFF(@tgl,start_date)/365))* 12)
+            - FLOOR((DATEDIFF(@tgl,start_date)/365 - FLOOR(DATEDIFF(@tgl,start_date)/365))* 12))* 30) days
+         FROM document_status WHERE empcode NOT IN (SELECT empcode FROM hr_termination) AND STATUS != "closed"
